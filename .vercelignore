@@ -1,0 +1,6 @@
+tests
+dev
+docs
+scripts
+*.zip
+__pycache__

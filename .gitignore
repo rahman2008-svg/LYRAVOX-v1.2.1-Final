@@ -1,0 +1,10 @@
+dev/www/
+__pycache__/
+*.pyc
+.vercel
+.env
+node_modules/
+tests/out.mp4
+tests/*.zip
+tests/*.png
+tests/proj.json

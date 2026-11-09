@@ -216,7 +216,14 @@ class HttpHandlerTests(unittest.TestCase):
     def test_missing_content_length_is_411(self):
         s = socket.create_connection(('127.0.0.1', self.ts.server_address[1]), timeout=5)
         s.sendall(b'POST /api/transcribe HTTP/1.1\r\nHost: x\r\nContent-Type: audio/wav\r\nConnection: close\r\n\r\n')
-        data = s.recv(4096).decode(); s.close()
+        chunks = []
+        while True:
+            part = s.recv(4096)
+            if not part:
+                break
+            chunks.append(part)
+        s.close()
+        data = b''.join(chunks).decode('utf-8', errors='replace')
         self.assertIn(' 411 ', data.split('\r\n')[0]); self.assertIn('length_required', data)
 
     def test_cross_site_requests_are_refused(self):
